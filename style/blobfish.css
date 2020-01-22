@@ -50,8 +50,7 @@ code {
 }
 
 .navbar-brand, .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-    font-weight: bolder;
-    color: #ffc7c7;
+    color: #60daff;
 }
 
 .nav > li > a:hover, .nav > li > a:focus {

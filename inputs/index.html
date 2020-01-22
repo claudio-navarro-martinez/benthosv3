@@ -50,7 +50,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-  <a class="navbar-brand" href="https://www.benthos.dev">Benthos</a>
+  <a class="navbar-brand" href="https://www.benthos.dev">Try out the new docs site!</a>
                 </div>
 
                 <!-- Expanded navigation -->
@@ -226,11 +226,10 @@
             <li><a href="#redis_pubsub">redis_pubsub</a></li>
             <li><a href="#redis_streams">redis_streams</a></li>
             <li><a href="#s3">s3</a></li>
+            <li><a href="#socket">socket</a></li>
+            <li><a href="#socket_server">socket_server</a></li>
             <li><a href="#sqs">sqs</a></li>
             <li><a href="#stdin">stdin</a></li>
-            <li><a href="#tcp">tcp</a></li>
-            <li><a href="#tcp_server">tcp_server</a></li>
-            <li><a href="#udp_server">udp_server</a></li>
             <li><a href="#websocket">websocket</a></li>
     </ul>
 </div></div>
@@ -283,11 +282,10 @@ combines multiple inputs.</p>
 <li><a href="#redis_pubsub"><code>redis_pubsub</code></a></li>
 <li><a href="#redis_streams"><code>redis_streams</code></a></li>
 <li><a href="#s3"><code>s3</code></a></li>
+<li><a href="#socket"><code>socket</code></a></li>
+<li><a href="#socket_server"><code>socket_server</code></a></li>
 <li><a href="#sqs"><code>sqs</code></a></li>
 <li><a href="#stdin"><code>stdin</code></a></li>
-<li><a href="#tcp"><code>tcp</code></a></li>
-<li><a href="#tcp_server"><code>tcp_server</code></a></li>
-<li><a href="#udp_server"><code>udp_server</code></a></li>
 <li><a href="#websocket"><code>websocket</code></a></li>
 </ol>
 <h2 id="amqp_0_9"><code>amqp_0_9</code></h2>
@@ -964,7 +962,7 @@ nats_stream:
   subject: benthos_messages
   unsubscribe_on_close: false
   urls:
-  - nats://localhost:4222
+  - nats://127.0.0.1:4222
 </code></pre>
 
 <p>Subscribe to a NATS Stream subject, which is at-least-once. Joining a queue is
@@ -1161,6 +1159,45 @@ allowing you to transfer data across accounts. You can find out more
 <p>You can access these metadata fields using
 <a href="../config_interpolation/#metadata">function interpolation</a>.</p>
 <hr />
+<h2 id="socket"><code>socket</code></h2>
+<pre><code class="yaml">type: socket
+socket:
+  address: /tmp/benthos.sock
+  delimiter: &quot;&quot;
+  max_buffer: 1e+06
+  multipart: false
+  network: unix
+</code></pre>
+
+<p>Connects to a (tcp/unix) socket and consumes a continuous stream of messages.</p>
+<p>If multipart is set to false each line of data is read as a separate message. If
+multipart is set to true each line is read as a message part, and an empty line
+indicates the end of a message.</p>
+<p>Messages consumed by this input can be processed in parallel, meaning a single
+instance of this input can utilise any number of threads within a
+<code>pipeline</code> section of a config.</p>
+<p>If the delimiter field is left empty then line feed (\n) is used.</p>
+<hr />
+<h2 id="socket_server"><code>socket_server</code></h2>
+<pre><code class="yaml">type: socket_server
+socket_server:
+  address: /tmp/benthos.sock
+  delimiter: &quot;&quot;
+  max_buffer: 1e+06
+  multipart: false
+  network: unix
+</code></pre>
+
+<p>Creates a server that receives messages over a (tcp/udp/unix) socket. Each
+connection is parsed as a continuous stream of line delimited messages.</p>
+<p>If multipart is set to false each line of data is read as a separate message. If
+multipart is set to true each line is read as a message part, and an empty line
+indicates the end of a message.</p>
+<p>If the delimiter field is left empty then line feed (\n) is used.</p>
+<p>The field <code>max_buffer</code> specifies the maximum amount of memory to
+allocate <em>per connection</em> for buffering lines of data. If a line of data from a
+connection exceeds this value then the connection will be closed.</p>
+<hr />
 <h2 id="sqs"><code>sqs</code></h2>
 <pre><code class="yaml">type: sqs
 sqs:
@@ -1216,58 +1253,6 @@ indicates the end of the message.</p>
 instance of this input can utilise any number of threads within a
 <code>pipeline</code> section of a config.</p>
 <p>If the delimiter field is left empty then line feed (\n) is used.</p>
-<hr />
-<h2 id="tcp"><code>tcp</code></h2>
-<pre><code class="yaml">type: tcp
-tcp:
-  address: localhost:4194
-  delimiter: &quot;&quot;
-  max_buffer: 1e+06
-  multipart: false
-</code></pre>
-
-<p>Connects to a TCP server and consumes a continuous stream of messages.</p>
-<p>If multipart is set to false each line of data is read as a separate message. If
-multipart is set to true each line is read as a message part, and an empty line
-indicates the end of a message.</p>
-<p>Messages consumed by this input can be processed in parallel, meaning a single
-instance of this input can utilise any number of threads within a
-<code>pipeline</code> section of a config.</p>
-<p>If the delimiter field is left empty then line feed (\n) is used.</p>
-<hr />
-<h2 id="tcp_server"><code>tcp_server</code></h2>
-<pre><code class="yaml">type: tcp_server
-tcp_server:
-  address: 127.0.0.1:0
-  delimiter: &quot;&quot;
-  max_buffer: 1e+06
-  multipart: false
-</code></pre>
-
-<p>Creates a server that receives messages over TCP. Each connection is parsed as a
-continuous stream of line delimited messages.</p>
-<p>If multipart is set to false each line of data is read as a separate message. If
-multipart is set to true each line is read as a message part, and an empty line
-indicates the end of a message.</p>
-<p>If the delimiter field is left empty then line feed (\n) is used.</p>
-<p>The field <code>max_buffer</code> specifies the maximum amount of memory to
-allocate <em>per connection</em> for buffering lines of data. If a line of data from a
-connection exceeds this value then the connection will be closed.</p>
-<hr />
-<h2 id="udp_server"><code>udp_server</code></h2>
-<pre><code class="yaml">type: udp_server
-udp_server:
-  address: 127.0.0.1:0
-  delimiter: &quot;&quot;
-  max_buffer: 1e+06
-</code></pre>
-
-<p>Creates a server that receives messages over UDP as a continuous stream of data.
-Each line is interpretted as an individual message, if the delimiter field is
-left empty then line feed (\n) is used.</p>
-<p>The field <code>max_buffer</code> specifies the maximum amount of memory to
-allocate for buffering lines of data, this must exceed the largest expected
-message size.</p>
 <hr />
 <h2 id="websocket"><code>websocket</code></h2>
 <pre><code class="yaml">type: websocket
