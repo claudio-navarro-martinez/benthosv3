@@ -11,7 +11,7 @@ require (
 	github.com/Shopify/sarama v1.25.0
 	github.com/armon/go-radix v1.0.0
 	github.com/aws/aws-lambda-go v1.13.3
-	github.com/aws/aws-sdk-go v1.28.1
+	github.com/aws/aws-sdk-go v1.33.0
 	github.com/benhoyt/goawk v1.6.0
 	github.com/boltdb/bolt v1.3.1
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b
@@ -41,7 +41,7 @@ require (
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
 	github.com/influxdata/go-syslog/v3 v3.0.0
 	github.com/jcmturner/gofork v1.0.0 // indirect
-	github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af
+	github.com/jmespath/go-jmespath v0.3.0
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/lib/pq v1.3.0
@@ -64,7 +64,6 @@ require (
 	github.com/patrobinson/gokini v0.0.7
 	github.com/pebbe/zmq4 v1.0.0
 	github.com/pierrec/lz4 v2.4.0+incompatible // indirect
-	github.com/pkg/errors v0.9.0 // indirect
 	github.com/prometheus/client_golang v1.3.0
 	github.com/prometheus/common v0.8.0 // indirect
 	github.com/quipo/dependencysolver v0.0.0-20170801134659-2b009cb4ddcc
@@ -75,7 +74,7 @@ require (
 	github.com/smira/go-statsd v1.3.1
 	github.com/spf13/cast v1.3.1
 	github.com/streadway/amqp v0.0.0-20200108173154-1c71cc93ed71
-	github.com/stretchr/testify v1.4.0
+	github.com/stretchr/testify v1.5.1
 	github.com/trivago/grok v1.0.0
 	github.com/trivago/tgo v1.0.5 // indirect
 	github.com/uber/jaeger-client-go v2.21.1+incompatible
